@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">QuizerX</string>
+    <string name="question_text">Канберра это столица Австралии.</string>
+    <string name="true_button">Правда</string>
+    <string name="false_button">Ложь</string>
+    <string name="correct_toast">Правильно!</string>
+    <string name="incorrect_toast">Неправильно!</string>
 </resources>
