@@ -46,17 +46,17 @@
             android:id="@+id/back_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/baseline_keyboard_arrow_left_black_36"
+            android:contentDescription="@string/back_button_description"
             android:onClick="back_button_pressed"
-            android:contentDescription="@string/back_button_description" />
+            android:src="@drawable/baseline_keyboard_arrow_left_black_36" />
 
         <ImageButton
             android:id="@+id/next_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/baseline_keyboard_arrow_right_black_36"
+            android:contentDescription="@string/next_button_description"
             android:onClick="next_button_pressed"
-            android:contentDescription="@string/next_button_description" />
+            android:src="@drawable/baseline_keyboard_arrow_right_black_36" />
 
     </LinearLayout>
 
