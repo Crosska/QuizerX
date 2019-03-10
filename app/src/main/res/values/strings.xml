@@ -5,4 +5,7 @@
     <string name="false_button">Ложь</string>
     <string name="correct_toast">Правильно!</string>
     <string name="incorrect_toast">Неправильно!</string>
+
+
+    <string name="error_toast">Произошла ошибка в тост-сообщении...</string>
 </resources>
