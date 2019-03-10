@@ -6,10 +6,10 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/question_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="24dp"
-        android:text="@string/question_text"
         android:textSize="20sp" />
 
     <LinearLayout
@@ -19,18 +19,30 @@
 
         <Button
             android:id="@+id/true_button"
+            style="@style/Base.TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/true_button"
-            android:onClick="true_button_pressed"/>
+            android:onClick="true_button_pressed"
+            android:text="@string/true_button" />
 
         <Button
             android:id="@+id/false_button"
+            style="@style/Base.TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/false_button"
-            android:onClick="false_button_pressed"/>
+            android:onClick="false_button_pressed"
+            android:text="@string/false_button" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/next_button"
+        style="@style/Base.TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="next_button_pressed"
+        android:text="@string/next_button"
+        android:drawableRight="@drawable/baseline_keyboard_arrow_right_black_24"
+        android:drawablePadding="4dp" />
 
 </LinearLayout>
