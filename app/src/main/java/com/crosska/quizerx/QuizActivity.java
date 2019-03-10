@@ -68,8 +68,14 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     public void next_button_pressed(View view) { // Действие при нажатии на кнопку "Далее"
-        if (mCurrentIndex == mQuestionBank.length-1) mCurrentIndex = 0;
+        if (mCurrentIndex == mQuestionBank.length - 1) mCurrentIndex = 0;
         else mCurrentIndex++;
+        updateQuestion();
+    }
+
+    public void back_button_pressed(View view) {
+        if (mCurrentIndex == 0) mCurrentIndex = 5;
+        else mCurrentIndex--;
         updateQuestion();
     }
 
@@ -78,9 +84,5 @@ public class QuizActivity extends AppCompatActivity {
         mQuestionTextView.setText(question);
     }
 
-    public void text_view_pressed(View view) {
-        if (mCurrentIndex == mQuestionBank.length-1) mCurrentIndex = 0;
-        else mCurrentIndex++;
-        updateQuestion();
-    }
+
 }
