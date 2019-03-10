@@ -42,27 +42,22 @@
         android:layout_gravity="center"
         android:orientation="horizontal">
 
-        <Button
+        <ImageButton
             android:id="@+id/back_button"
-            style="@style/Base.TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/baseline_keyboard_arrow_left_black_24"
-            android:drawablePadding="3dp"
+            android:src="@drawable/baseline_keyboard_arrow_left_black_36"
             android:onClick="back_button_pressed"
-            android:text="@string/back_button" />
+            android:contentDescription="@string/back_button_description" />
 
-        <Button
+        <ImageButton
             android:id="@+id/next_button"
-            style="@style/Base.TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableEnd="@drawable/baseline_keyboard_arrow_right_black_24"
-            android:drawablePadding="4dp"
+            android:src="@drawable/baseline_keyboard_arrow_right_black_36"
             android:onClick="next_button_pressed"
-            android:text="@string/next_button" />
+            android:contentDescription="@string/next_button_description" />
 
     </LinearLayout>
-
 
 </LinearLayout>

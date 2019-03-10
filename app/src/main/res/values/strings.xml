@@ -15,4 +15,6 @@
     <string name="error_toast">Произошла ошибка в тост-сообщении.</string>
     <string name="next_button">Далее</string>
     <string name="back_button">Назад</string>
+    <string name="back_button_description">Показать предыдуший вопрос</string>
+    <string name="next_button_description">Показать следущий вопрос</string>
 </resources>
