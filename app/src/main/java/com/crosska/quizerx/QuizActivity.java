@@ -78,4 +78,9 @@ public class QuizActivity extends AppCompatActivity {
         mQuestionTextView.setText(question);
     }
 
+    public void text_view_pressed(View view) {
+        if (mCurrentIndex == mQuestionBank.length-1) mCurrentIndex = 0;
+        else mCurrentIndex++;
+        updateQuestion();
+    }
 }

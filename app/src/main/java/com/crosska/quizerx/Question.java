@@ -1,6 +1,7 @@
 package com.crosska.quizerx;
 
 public class Question {
+
     public int getTextResId() {
         return mTextResId;
     }
