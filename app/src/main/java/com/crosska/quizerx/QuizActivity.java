@@ -1,5 +1,7 @@
 package com.crosska.quizerx;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -12,9 +14,11 @@ import android.widget.Toast;
 public class QuizActivity extends AppCompatActivity {
 
     private static final String TAG = "QuizActivity";
-    private static final String KEY_INDEX = "index"; // Ключ для сохраняемого значения
+    private static final String KEY_INDEX = "index"; // Ключи для сохраняемого значения
     private static final String KEY_ACCESS = "access";
     private static final String KEY_RIGHT_ANSWER = "right";
+    private static final String KEY_IS_CHEATER = "cheater";
+    private static final int REQUEST_CODE_CHEAT = 0;
 
     private TextView mQuestionTextView;
     private Button mTrueButton;
@@ -32,6 +36,7 @@ public class QuizActivity extends AppCompatActivity {
     private boolean[] mButtonAccess = new boolean[]{true, true, true, true, true, true}; // Массив доступа к кнопкам
     private int mNumberOfRightAnswers = 0;  // Количество правильных ответов ответов
     private int mCurrentIndex = 0; // Текущий индекс вопроса
+    private boolean mIsCheater;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) { // Метод создания активности
@@ -42,6 +47,7 @@ public class QuizActivity extends AppCompatActivity {
             mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
             mNumberOfRightAnswers = savedInstanceState.getInt(KEY_RIGHT_ANSWER);
             mButtonAccess = savedInstanceState.getBooleanArray(KEY_ACCESS);
+            mIsCheater = savedInstanceState.getBoolean(KEY_IS_CHEATER);
         }
         mQuestionTextView = findViewById(R.id.question_text_view);
         mFalseButton = findViewById(R.id.false_button);
@@ -56,36 +62,20 @@ public class QuizActivity extends AppCompatActivity {
         savedInstanceState.putInt(KEY_INDEX, mCurrentIndex); // Сохраняем значение mCurrentIndex с использованием ключа KEY_INDEX
         savedInstanceState.putBooleanArray(KEY_ACCESS, mButtonAccess); // Сохраняем значение массива mButtonAccess с использованием ключа KEY_ACCESS
         savedInstanceState.putInt(KEY_RIGHT_ANSWER, mNumberOfRightAnswers); // Сохраняем значение mNumberOfRightAnswers с использованием ключа KEY_RIGHT_ANSWER
+        savedInstanceState.putBoolean(KEY_IS_CHEATER, mIsCheater);
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        Log.d(TAG, "onStart() called");
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.d(TAG, "onResume() called");
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        Log.d(TAG, "onPause() called");
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        Log.d(TAG, "onStop() called");
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.d(TAG, "onDestroy() called");
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
+        if (requestCode == REQUEST_CODE_CHEAT) {
+            if (data == null) {
+                return;
+            }
+            mIsCheater = CheatActivity.wasAnswerShown(data);
+        }
     }
 
     public void true_button_pressed(View view) { // Действие при нажатии на кнопку "Правда"
@@ -119,9 +109,14 @@ public class QuizActivity extends AppCompatActivity {
                 toast_last_question.show();
                 break;
             case 5: // Действие при последнем ответе
-                Toast toast_percent_answers = Toast.makeText(getApplicationContext(), "У вас " + mRightPercent + "% правильных ответов!" , Toast.LENGTH_LONG);
+                Toast toast_percent_answers = Toast.makeText(getApplicationContext(), "У вас " + mRightPercent + "% правильных ответов!", Toast.LENGTH_LONG);
                 toast_percent_answers.setGravity(Gravity.BOTTOM, 0, 250);
                 toast_percent_answers.show();
+                break;
+            case 6:
+                Toast toast_judgement = Toast.makeText(getApplicationContext(), R.string.judgment_toast, Toast.LENGTH_SHORT);
+                toast_judgement.setGravity(Gravity.BOTTOM, 0, 250);
+                toast_judgement.show();
                 break;
             default: // Действия при ошибке
                 Toast toast_error = Toast.makeText(getApplicationContext(), R.string.error_toast, Toast.LENGTH_LONG);
@@ -134,23 +129,29 @@ public class QuizActivity extends AppCompatActivity {
     private void checkAnswer(boolean userPressedTrue) { // Метод проверки правильности ответа
         boolean answerIsTrue = mQuestionBank[mCurrentIndex].isAnswerTrue();
         mButtonAccess[mCurrentIndex] = false;
-        if (userPressedTrue == answerIsTrue) {
-            showToast(1, 0);
-            mNumberOfRightAnswers++;
+        if (mIsCheater) {
+            showToast(6, 0);
+            mButtonAccess[mCurrentIndex] = false;
         } else {
-            showToast(2, 0);
+            if (userPressedTrue == answerIsTrue) {
+                showToast(1, 0);
+                mNumberOfRightAnswers++;
+            } else {
+                showToast(2, 0);
+            }
         }
-        if (!mButtonAccess[0] && !mButtonAccess[1] && !mButtonAccess[2] && !mButtonAccess[3] && !mButtonAccess[4] && !mButtonAccess[5]) {
-            int mPercentAnswers = (100 / 6) * mNumberOfRightAnswers;
-            if (mPercentAnswers > 100) mPercentAnswers = 100;
-            showToast(5, mPercentAnswers);
-        }
-        updateButtonAccess();
+            if (!mButtonAccess[0] && !mButtonAccess[1] && !mButtonAccess[2] && !mButtonAccess[3] && !mButtonAccess[4] && !mButtonAccess[5]) {
+                int mPercentAnswers = (100 / 6) * mNumberOfRightAnswers;
+                if (mPercentAnswers > 100) mPercentAnswers = 100;
+                showToast(5, mPercentAnswers);
+            }
+            updateButtonAccess();
     }
 
     public void next_button_pressed(View view) { // Действие при нажатии на кнопку "Далее"
         if (mCurrentIndex == mQuestionBank.length - 1) showToast(4, 0);
         else mCurrentIndex++;
+        mIsCheater = false;
         updateQuestion();
     }
 
@@ -176,5 +177,11 @@ public class QuizActivity extends AppCompatActivity {
             mTrueButton.setEnabled(true);
             mFalseButton.setEnabled(true);
         }
+    }
+
+    public void cheat_button_pressed(View view) {
+        boolean answerIsTrue = mQuestionBank[mCurrentIndex].isAnswerTrue();
+        Intent intent = CheatActivity.newIntent(QuizActivity.this, answerIsTrue); // Создание обьекта "интент", сообщающий ActivityManager какую активность следует запустить
+        startActivityForResult(intent, REQUEST_CODE_CHEAT);
     }
 }
