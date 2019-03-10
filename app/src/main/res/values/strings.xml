@@ -17,4 +17,6 @@
     <string name="back_button">Назад</string>
     <string name="back_button_description">Показать предыдуший вопрос</string>
     <string name="next_button_description">Показать следущий вопрос</string>
+    <string name="first_question_toast">Это первый вопрос.</string>
+    <string name="last_question_toast">Это последний вопрос.</string>
 </resources>
