@@ -6,16 +6,8 @@ public class Question {
         return mTextResId;
     }
 
-    public void setTextResId(int textResId) {
-        mTextResId = textResId;
-    }
-
     public boolean isAnswerTrue() {
         return mAnswerIsTrue;
-    }
-
-    public void setAnswerIsTrue(boolean answerIsTrue) {
-        mAnswerIsTrue = answerIsTrue;
     }
 
     private int mTextResId;
